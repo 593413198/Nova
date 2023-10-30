@@ -4,6 +4,8 @@
 #ifndef NOVA_TEST_H
 #define NOVA_TEST_H
 
+#include "Log.h"
+
 namespace Nova
 {
     void Print();
