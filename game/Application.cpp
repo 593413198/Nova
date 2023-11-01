@@ -1,11 +1,10 @@
 
 // Luhao 2023/10/31
 
-#include "../engine/test.h"
+#include "../engine/Log.h"
 
 int main()
 {
-    Nova::Print();
 	Noval::Log::Init();
 	LOG_TRACE("test trace log");
 	LOG_INFO("test info log");

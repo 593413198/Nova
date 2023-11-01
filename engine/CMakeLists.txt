@@ -4,8 +4,12 @@ cmake_minimum_required(VERSION 2.8)
 project(Nova)
 
 set(SRC_LIST
-    test.cpp
     Log.cpp
+    Log.h
+    Events/Event.h
+    Events/KeyEvent.h
+    Events/MouseEvent.h
+    Events/WindowEvent.h
     )
 
 add_library(Nova STATIC ${SRC_LIST})
