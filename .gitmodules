@@ -1,3 +1,6 @@
 [submodule "misc/spdlog"]
 	path = misc/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "misc/GLFW"]
+	path = misc/GLFW
+	url = git@github.com:TheCherno/glfw.git

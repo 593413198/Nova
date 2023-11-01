@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(Nova)
 
+find_package(OpenGL REQUIRED)
+
 set(SRC_LIST
     Log.cpp
     Log.h
@@ -10,8 +12,18 @@ set(SRC_LIST
     Events/KeyEvent.h
     Events/MouseEvent.h
     Events/WindowEvent.h
+    Platform/glad.c
     )
 
 add_library(Nova STATIC ${SRC_LIST})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../misc/spdlog/include)
+add_subdirectory(../misc/GLFW ../glfw)
+
+target_link_libraries(${PROJECT_NAME} glfw)
+
+target_include_directories(${PROJECT_NAME} PUBLIC 
+    ...
+    ../misc/spdlog/include
+    ../misc/GLFW/include
+    Platform/include
+    )

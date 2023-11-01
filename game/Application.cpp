@@ -2,6 +2,7 @@
 // Luhao 2023/10/31
 
 #include "../engine/Log.h"
+#include "glad/glad.h"
 
 int main()
 {
