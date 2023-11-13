@@ -8,14 +8,18 @@ find_package(OpenGL REQUIRED)
 set(SRC_LIST
     Log.cpp
     Log.h
-    Events/Event.h
-    Events/KeyEvent.h
-    Events/MouseEvent.h
-    Events/WindowEvent.h
     Platform/glad.c
+    Platform/Window.h
+    Platform/Windows/WindowsWindow.cpp
+    Platform/Windows/WindowsWindow.h
     )
 
-add_library(Nova STATIC ${SRC_LIST})
+file(GLOB EVENTS_HEADERS Events/*.h)
+
+add_library(Nova STATIC
+    ${SRC_LIST}
+    ${EVENTS_HEADERS}
+)
 
 add_subdirectory(../misc/GLFW ../glfw)
 
@@ -26,4 +30,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ../misc/spdlog/include
     ../misc/GLFW/include
     Platform/include
+    Events/
     )
