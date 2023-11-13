@@ -8,6 +8,8 @@ namespace Noval {
     std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
 
     void Log::Init() {
+        // set_pattern: 
+        // ** https://github.com/gabime/spdlog/wiki/3.-Custom-formatting#pattern-flags
         spdlog::set_pattern("%^[%T] [%n] %v%$");
         Log::s_CoreLogger = spdlog::stdout_color_mt("NOVAL", spdlog::color_mode::always);
         Log::s_CoreLogger->set_level(spdlog::level::trace);
