@@ -4,6 +4,7 @@
 
 #include "../Log.h"
 #include "WindowsWindow.h"
+#include "ApplicationEvent.h"
 
 namespace Nova {
 	static bool s_GLFWInitialized = false;
@@ -53,6 +54,35 @@ namespace Nova {
 			return;
 		}
 		SetVSync(true);
+
+		// 注册 Resize 回调事件
+		glfwSetWindowSizeCallback(m_Window,
+			[](GLFWwindow* window, int width, int height) {
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				data.Width = width;
+				data.Height = height;
+
+				WindowResizeEvent event(width, height);
+				LOG_INFO(event.ToString());
+				// TODO: 实现 Event Dispatcher
+				//data.EventCallback(event);
+			}
+		);
+
+		// 注册 Close 回调事件
+		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			// TODO: 
+			//WindowCloseEvent event;
+			//data.EventCallback(event);
+			});
+
+		// 注册 鼠标异动 事件
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset) {
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			//MouseScrolledEvent event((float)xOffset, (float)yOffset);
+			//data.EventCallback(event);
+			});
 	}
 
 	void WindowsWindow::Shutdown() {

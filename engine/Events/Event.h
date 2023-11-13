@@ -2,6 +2,8 @@
 // Luhao 2023.11.1
 
 #include <stdint.h>
+#include <string>
+#include <sstream>
 
 #pragma once
 
@@ -172,6 +174,8 @@ namespace Nova {
 		bool Handled = false;
 
 		virtual EventType GetEventType() const = 0;
+		virtual const char* GetName() const = 0;
+		virtual std::string ToString() const { return GetName(); }
 	};
 
 	class EventDispatcher {
