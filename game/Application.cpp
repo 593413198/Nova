@@ -15,7 +15,7 @@ int main()
 
 	while (1)
 	{
-		glClearColor(0.3, 0.3, 0.3, 1);
+		glClearColor((GLfloat)0.3, (GLfloat)0.3, (GLfloat)0.3, (GLfloat)1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		window->OnUpdate();
 	}
