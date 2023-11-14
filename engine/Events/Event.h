@@ -178,6 +178,12 @@ namespace Nova {
 		virtual std::string ToString() const { return GetName(); }
 	};
 
+
+// 用宏批量定义 Event 成员函数
+#define EVENT_CLASS_TYPE(type) \
+	EventType GetEventType() const override {return EventType::type;}\
+	const char* GetName() const override {return #type;}
+
 	class EventDispatcher {
 
 	public:

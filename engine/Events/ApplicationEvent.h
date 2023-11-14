@@ -5,6 +5,7 @@
 
 namespace Nova {
 	
+// 应用窗口的事件
 class WindowResizeEvent : public Event {
 public:
 	WindowResizeEvent(unsigned int width, unsigned int height) : m_Width(width), m_Height(height) {}
@@ -18,15 +19,16 @@ public:
 		return ss.str();
 	}
 
-	const char* GetName() const override { return "WindowResizeEvent"; };
-
-	EventType GetEventType() const override { return EventType::WindowResize; };
-
-	//EVENT_CLASS_TYPE(WindowResize)
-	//EVENT_CLASS_CATEGORY(EventCategoryApplication)
+	EVENT_CLASS_TYPE(WindowResize)
 
 private:
 	unsigned int m_Width, m_Height;
+};
+
+class WindowCloseEvent : public Event {
+public:
+	WindowCloseEvent() = default;
+	EVENT_CLASS_TYPE(WindowClose)
 };
 
 } // End Nova
