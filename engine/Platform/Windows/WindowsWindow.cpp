@@ -5,6 +5,7 @@
 #include "../Log.h"
 #include "WindowsWindow.h"
 #include "ApplicationEvent.h"
+#include "KeyEvent.h"
 
 namespace Nova {
 	static bool s_GLFWInitialized = false;
@@ -82,6 +83,35 @@ namespace Nova {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			//MouseScrolledEvent event((float)xOffset, (float)yOffset);
 			//data.EventCallback(event);
+			});
+
+		// ×¢²á ¼üÅÌÊÂ¼þ
+		// https://www.glfw.org/docs/3.3/input_guide.html#events
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+			switch (action)
+			{
+			case GLFW_PRESS:
+			{
+				KeyPressedEvent event(key);
+				LOG_INFO(event.ToString());
+				break;
+			}
+			case GLFW_RELEASE:
+			{
+				KeyPressedEvent event(key);
+				LOG_INFO(event.ToString());
+				break;
+			}
+			case GLFW_REPEAT:
+			{
+				KeyPressedEvent event(key, 1);
+				LOG_INFO(event.ToString());
+				break;
+			}
+			default:
+				break;
+			}
+
 			});
 	}
 
