@@ -6,6 +6,7 @@
 #include "WindowsWindow.h"
 #include "ApplicationEvent.h"
 #include "KeyEvent.h"
+#include "MouseEvent.h"
 
 namespace Nova {
 	static bool s_GLFWInitialized = false;
@@ -113,6 +114,20 @@ namespace Nova {
 			}
 
 			});
+
+		// 注册 鼠标移动事件
+		// https://www.glfw.org/docs/3.3/input_guide.html#cursor_pos
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) {
+			MouseMovedEvent event(xpos, ypos);
+			LOG_INFO(event.ToString());
+		});
+
+		// 注册 鼠标scroll事件
+		// https://www.glfw.org/docs/3.3/input_guide.html#scrolling
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) {
+			MouseScrolledEvent event(xoffset, yoffset);
+			LOG_INFO(event.ToString());
+		});
 	}
 
 	void WindowsWindow::Shutdown() {
