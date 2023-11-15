@@ -3,7 +3,7 @@
 
 #include "../engine/Log.h"
 #include "../engine/Platform/Window.h"
-#include "glad/glad.h"
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 int main()
