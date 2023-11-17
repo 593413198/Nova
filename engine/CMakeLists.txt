@@ -29,7 +29,7 @@ add_subdirectory(../misc/GLFW ../glfw)
 target_link_libraries(${PROJECT_NAME} glfw)
 
 target_include_directories(${PROJECT_NAME} PUBLIC 
-    ...
+    .
     ../misc/spdlog/include
     ../misc/GLFW/include
     Platform/include
