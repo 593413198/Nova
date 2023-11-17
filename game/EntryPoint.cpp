@@ -1,10 +1,9 @@
 
 // Luhao 2023/10/31
 
-#include "../engine/Log.h"
-#include "../engine/Platform/Window.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "../engine/Nova.h"
 
 int main()
 {

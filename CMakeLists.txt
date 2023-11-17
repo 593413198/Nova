@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 2.8)
 
 project(Game)
 
-set(SRC_LIST game/Application.cpp)
+set(SRC_LIST 
+	game/EntryPoint.cpp
+)
 
 add_subdirectory(engine)
 

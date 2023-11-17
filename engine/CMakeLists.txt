@@ -6,12 +6,15 @@ project(Nova)
 find_package(OpenGL REQUIRED)
 
 set(SRC_LIST
+    Nova.h
     Log.cpp
     Log.h
     Platform/glad.c
     Platform/Window.h
     Platform/Windows/WindowsWindow.cpp
     Platform/Windows/WindowsWindow.h
+    Cores/Application.cpp
+    Cores/Application.h
     )
 
 file(GLOB EVENTS_HEADERS Events/*.h)
