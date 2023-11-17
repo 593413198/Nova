@@ -1,6 +1,8 @@
 
 // Luhao 2023.11.13
 
+#pragma once
+
 #include "Window.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -17,6 +19,10 @@ namespace Nova {
 
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned  int GetHeight() const override { return m_Data.Height; }
+
+		void* GetNativeWindow() override {
+			return m_Window;
+		}
 
 		// Window attributes
 		inline void SetEventCallback(const EventCallbackFn& callback) override {

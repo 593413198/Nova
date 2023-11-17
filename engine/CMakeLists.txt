@@ -18,13 +18,29 @@ set(SRC_LIST
     Cores/Layer.h
     Cores/LayerStack.cpp
     Cores/LayerStack.h
+    ImGui/ImGuiLayer.cpp
+    ImGui/ImGuiLayer.h
     )
 
 file(GLOB EVENTS_HEADERS Events/*.h)
 
+file (GLOB SRC_LIST_IMGUI
+        ../misc/imgui/*.h
+        ../misc/imgui/*.cpp
+)
+
+set(SRC_LIST_IMGUI_BACKENDS
+        ../misc/imgui/backends/imgui_impl_opengl3.h
+        ../misc/imgui/backends/imgui_impl_opengl3.cpp
+        ../misc/imgui/backends/imgui_impl_opengl3_loader.h
+        ../misc/imgui/backends/imgui_impl_glfw.h
+        ../misc/imgui/backends/imgui_impl_glfw.cpp
+)
+
 add_library(Nova STATIC
     ${SRC_LIST}
     ${EVENTS_HEADERS}
+    ${SRC_LIST_IMGUI} ${SRC_LIST_IMGUI_BACKENDS} # IMGUI
 )
 
 add_subdirectory(../misc/GLFW ../glfw)
@@ -35,6 +51,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     .
     ../misc/spdlog/include
     ../misc/GLFW/include
+    ../misc/imgui
+    ../misc/imgui/backends
     Platform/include
     Events/
     Cores/

@@ -1,6 +1,8 @@
 
 // Luhao 2023.11.1
 
+#pragma once
+
 #include "Event.h"
 
 namespace Nova {

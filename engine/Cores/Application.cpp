@@ -1,9 +1,8 @@
 
 // Luhao 2023.11.18
 
-#include "Application.h"
 #include <glad/glad.h>
-
+#include "Application.h"
 
 namespace Nova {
 
@@ -26,9 +25,16 @@ namespace Nova {
 	};
 	// * test code end
 
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application() {
-		PushLayer(new ExampleLayer());
+		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
+
+		//PushLayer(new ExampleLayer());
+		m_ImGuiLayer = new ImGuiLayer();
+		PushLayer(m_ImGuiLayer);
+
 		Window::EventCallbackFn fn = std::bind(&Application::OnEvent, this, std::placeholders::_1);
 		m_Window->SetEventCallback(fn);
 	}
@@ -40,6 +46,7 @@ namespace Nova {
 		while (m_Running) {
 			glClearColor((GLfloat)0.3, (GLfloat)0.3, (GLfloat)0.3, (GLfloat)1.0);
 			glClear(GL_COLOR_BUFFER_BIT);
+			m_ImGuiLayer->OnUpdate();
 			m_Window->OnUpdate();
 		}
 	}
@@ -66,6 +73,7 @@ namespace Nova {
 
 	void Application::PushLayer(Layer* layer) {
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	Application* CreateApplication() {
