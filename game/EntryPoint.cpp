@@ -5,19 +5,15 @@
 #include <GLFW/glfw3.h>
 #include "../engine/Nova.h"
 
+extern Nova::Application* Nova::CreateApplication();
+
 int main()
 {
 	Noval::Log::Init();
 	LOG_INFO("Application Begin:");
 
-	auto window = std::unique_ptr<Nova::Window>(Nova::Window::Create());
-
-	while (1)
-	{
-		glClearColor((GLfloat)0.3, (GLfloat)0.3, (GLfloat)0.3, (GLfloat)1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
-		window->OnUpdate();
-	}
+	auto app = Nova::CreateApplication();
+	app->Run();
 
     return 1;
 }

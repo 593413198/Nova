@@ -10,9 +10,9 @@ set(SRC_LIST
     Log.cpp
     Log.h
     Platform/glad.c
-    Platform/Window.h
     Platform/Windows/WindowsWindow.cpp
     Platform/Windows/WindowsWindow.h
+    Cores/Window.h
     Cores/Application.cpp
     Cores/Application.h
     )
@@ -34,4 +34,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ../misc/GLFW/include
     Platform/include
     Events/
+    Cores/
     )

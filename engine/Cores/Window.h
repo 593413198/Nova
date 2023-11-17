@@ -1,6 +1,9 @@
 
 // Luhao 2023.11.13
 
+#ifndef WINDOW_H
+#define WINDOW_H
+
 #include <string>
 #include <functional>
 #include "Event.h"
@@ -37,3 +40,4 @@ namespace Nova {
 
 }
 
+#endif // WINDOW_H

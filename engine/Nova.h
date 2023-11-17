@@ -4,6 +4,6 @@
 
 #include <stdio.h>
 #include "Cores/Application.h"
+#include "Cores/Window.h"
 #include "Log.h"
-#include "Platform/Window.h"
 
