@@ -15,6 +15,9 @@ set(SRC_LIST
     Cores/Window.h
     Cores/Application.cpp
     Cores/Application.h
+    Cores/Layer.h
+    Cores/LayerStack.cpp
+    Cores/LayerStack.h
     )
 
 file(GLOB EVENTS_HEADERS Events/*.h)
@@ -35,4 +38,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     Platform/include
     Events/
     Cores/
+    Layer/
     )
