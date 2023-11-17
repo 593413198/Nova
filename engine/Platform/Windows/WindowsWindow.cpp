@@ -75,8 +75,8 @@ namespace Nova {
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			// TODO: 
-			//WindowCloseEvent event;
-			//data.EventCallback(event);
+			WindowCloseEvent event;
+			data.EventCallback(event);
 			});
 
 		// 注册 鼠标异动 事件

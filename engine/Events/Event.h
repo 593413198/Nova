@@ -190,6 +190,12 @@ namespace Nova {
 		EventDispatcher(Event& event) : m_event(event) {
 		}
 
+		template<typename T, typename F>
+		bool Dispatch(const F& func) {
+			m_event.Handled |= func(static_cast<T&>(m_event));
+			return true;
+		}
+
 	private:
 		Event& m_event;
 
