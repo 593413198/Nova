@@ -18,6 +18,10 @@ namespace Nova {
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
+		// 开启 docking 模式（可拖动的自由布局窗口）
+		io.BackendFlags |= ImGuiConfigFlags_DockingEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
 		const auto& ints = Application::Instance();
 
 		ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)Application::Instance().GetWindow().GetNativeWindow(), true);
