@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
+#include "Input.h"
 
 namespace Nova {
 
@@ -18,6 +19,10 @@ namespace Nova {
 		~ExampleLayer() {}
 
 		void OnUpdate() override {
+			if (Input::IsKeyPressed(Key::Space))
+			{
+				LOG_INFO("KeyPressed: Space");
+			}
 			LOG_INFO("ExampleLayer::Update");
 		}
 
@@ -39,6 +44,7 @@ namespace Nova {
 		// …Ë÷√ ImGui Õº≤„
 		m_ImGuiLayer = new ImGuiLayer();
 		PushLayer(m_ImGuiLayer);
+		PushLayer(new ExampleLayer());
 
 		m_VertexArray.reset(VertexArray::Create());
 

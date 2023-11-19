@@ -10,8 +10,8 @@ set(SRC_LIST
     Log.cpp
     Log.h
     Platform/glad.c
-    Platform/Windows/WindowsWindow.cpp
-    Platform/Windows/WindowsWindow.h
+    Platform/Windows/WindowsWindow.cpp Platform/Windows/WindowsWindow.h
+    Platform/Windows/WindowsInput.cpp Platform/Windows/WindowsInput.h
     Platform/OpenGL/OpenGLContext.cpp
     Platform/OpenGL/OpenGLContext.h
     Platform/OpenGL/OpenGLBuffer.cpp
@@ -37,6 +37,7 @@ set(SRC_LIST
     Cores/Layer.h
     Cores/LayerStack.cpp
     Cores/LayerStack.h
+    Cores/Input.h
     ImGui/ImGuiLayer.cpp
     ImGui/ImGuiLayer.h
     )
