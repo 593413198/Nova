@@ -5,6 +5,7 @@
 #define LOG_H
 
 #include <memory>
+#include <cassert>
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
@@ -34,6 +35,13 @@ namespace Noval {
 #define LOG_INFO(...)   ::Noval::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define LOG_WARN(...)   ::Noval::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define LOG_ERROR(...)  ::Noval::Log::GetCoreLogger()->error(__VA_ARGS__)
+
+// Core assert
+#define NOVA_ASSERT(x, ...) {\
+    if (!(x)) {\
+        LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); assert(x);\
+    }\
+}
 
 #endif // LOG_H
 

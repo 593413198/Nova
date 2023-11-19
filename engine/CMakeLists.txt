@@ -12,6 +12,9 @@ set(SRC_LIST
     Platform/glad.c
     Platform/Windows/WindowsWindow.cpp
     Platform/Windows/WindowsWindow.h
+    Platform/OpenGL/OpenGLContext.cpp
+    Platform/OpenGL/OpenGLContext.h
+    Renderer/GraphicsContext.h
     Cores/Window.h
     Cores/Application.cpp
     Cores/Application.h

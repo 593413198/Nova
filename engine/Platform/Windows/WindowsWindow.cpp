@@ -7,6 +7,7 @@
 #include "ApplicationEvent.h"
 #include "KeyEvent.h"
 #include "MouseEvent.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Nova {
 	static bool s_GLFWInitialized = false;
@@ -47,14 +48,11 @@ namespace Nova {
 #endif
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		glfwSetWindowUserPointer(m_Window, &m_Data);
 
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		{
-			LOG_INFO("Failed to initialize GLAD");
-			return;
-		}
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
+		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
 		// 注册 Resize 回调事件
@@ -136,7 +134,7 @@ namespace Nova {
 
 	void WindowsWindow::OnUpdate() {
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled) {

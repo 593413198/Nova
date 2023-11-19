@@ -6,7 +6,7 @@
 #include "Window.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
+#include "Renderer/GraphicsContext.h"
 
 namespace Nova {
 	class WindowsWindow : public Window {
@@ -39,6 +39,8 @@ namespace Nova {
 
 	private:
 		GLFWwindow* m_Window;
+		// Windows 目前只支持 OpenGL
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 			std::string Title;
