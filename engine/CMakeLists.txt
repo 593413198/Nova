@@ -68,6 +68,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ../misc/GLFW/include
     ../misc/imgui
     ../misc/imgui/backends
+    ../misc/glm
     Platform/include
     Events/
     Cores/
