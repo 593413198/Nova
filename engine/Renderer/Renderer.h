@@ -3,19 +3,17 @@
 
 #pragma once
 
-namespace Nova {
-	enum class RendererDeviceType {
-		None = 0, 
-		OpenGL = 1
-		// todo: Metal, OpenGL ES, Vulkan
-	};
+#include "VertexArray.h"
+#include "RendererAPI.h"
 
+namespace Nova {
 	class Renderer {
 	public:
-		inline static RendererDeviceType GetDeviceType() {
-			return s_RendererAPI;
-		}
-	private:
-		static RendererDeviceType s_RendererAPI;
+		static void BeginScene();
+		static void EndScene();
+
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+
+		inline static RendererDeviceType GetDeviceType() { return RendererAPI::GetAPI(); }
 	};
 }

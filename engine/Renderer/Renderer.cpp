@@ -2,7 +2,21 @@
 // Luhao 2023.11.19
 
 #include "Renderer.h"
+#include "RenderCommand.h"
 
 namespace Nova {
-	RendererDeviceType Renderer::s_RendererAPI = RendererDeviceType::OpenGL;
+
+	void Renderer::BeginScene()
+	{
+	}
+
+	void Renderer::EndScene()
+	{
+	}
+
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray)
+	{
+		vertexArray->Bind();
+		RenderCommand::DrawIndexed(vertexArray);
+	}
 }

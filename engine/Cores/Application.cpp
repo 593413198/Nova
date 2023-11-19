@@ -3,6 +3,8 @@
 
 #include <glad/glad.h>
 #include "Application.h"
+#include "Renderer/Renderer.h"
+#include "Renderer/RenderCommand.h"
 
 namespace Nova {
 
@@ -99,12 +101,11 @@ void main()
 
 	void Application::Run() {
 		while (m_Running) {
-			glClearColor((GLfloat)0.3, (GLfloat)0.3, (GLfloat)0.3, (GLfloat)1.0);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({0.3f, 0.3f, 0.3f, 1.0f});
+			RenderCommand::Clear();
 
 			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(m_VertexArray);
 
 			m_ImGuiLayer->OnUpdate();
 			m_Window->OnUpdate();

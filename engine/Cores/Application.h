@@ -41,10 +41,10 @@ private:
 	LayerStack m_LayerStack;
 	ImGuiLayer* m_ImGuiLayer;
 	// Shader *https://learnopengl.com/Getting-started/Hello-Triangle
-	std::unique_ptr<VertexArray> m_VertexArray;
-	std::unique_ptr<VertexBuffer> m_VertexBuffer;
-	std::unique_ptr<IndexBuffer> m_IndexBuffer;
-	std::unique_ptr<Shader> m_Shader;
+	std::shared_ptr<VertexArray> m_VertexArray;
+	std::shared_ptr<VertexBuffer> m_VertexBuffer;
+	std::shared_ptr<IndexBuffer> m_IndexBuffer;
+	std::shared_ptr<Shader> m_Shader;
 
 private:
 	static Application* s_Instance;
