@@ -37,6 +37,11 @@ private:
 	bool m_Running = true;
 	LayerStack m_LayerStack;
 	ImGuiLayer* m_ImGuiLayer;
+	// ** https://learnopengl.com/Getting-started/Hello-Triangle
+	unsigned int m_VertexArray;  // VAO
+	unsigned int m_VertexBuffer; // VBO
+	unsigned int m_IndexBuffer;  // EBO
+	unsigned int shaderProgram;
 
 private:
 	static Application* s_Instance;
