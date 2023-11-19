@@ -15,6 +15,8 @@ set(SRC_LIST
     Platform/OpenGL/OpenGLContext.cpp
     Platform/OpenGL/OpenGLContext.h
     Renderer/GraphicsContext.h
+    Renderer/Shader.cpp
+    Renderer/Shader.h
     Cores/Window.h
     Cores/Application.cpp
     Cores/Application.h

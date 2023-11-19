@@ -11,6 +11,7 @@
 #include "Layer.h"
 #include "LayerStack.h"
 #include "ImGui/ImGuiLayer.h"
+#include "Renderer/Shader.h"
 
 namespace Nova {
 class Application {
@@ -41,7 +42,8 @@ private:
 	unsigned int m_VertexArray;  // VAO
 	unsigned int m_VertexBuffer; // VBO
 	unsigned int m_IndexBuffer;  // EBO
-	unsigned int shaderProgram;
+	// Shader
+	std::unique_ptr<Shader> m_Shader;
 
 private:
 	static Application* s_Instance;
