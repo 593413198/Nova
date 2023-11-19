@@ -30,6 +30,7 @@ set(SRC_LIST
     Renderer/VertexArray.h
     Renderer/RendererAPI.cpp Renderer/RendererAPI.h
     Renderer/RenderCommand.cpp Renderer/RenderCommand.h
+    Renderer/OrthographicCamera.h
     Cores/Window.h
     Cores/Application.cpp
     Cores/Application.h

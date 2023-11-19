@@ -14,6 +14,7 @@
 #include "Renderer/Shader.h"
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
+#include "Renderer/OrthographicCamera.h"
 
 namespace Nova {
 class Application {
@@ -34,6 +35,8 @@ public:
 	inline static Application& Instance() {
 		return *s_Instance;
 	}
+
+	OrthographicCamera m_Camera;
 
 private:
 	std::unique_ptr<Window> m_Window;

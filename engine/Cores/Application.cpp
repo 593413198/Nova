@@ -29,7 +29,7 @@ namespace Nova {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application() {
+	Application::Application() :m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
 		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 
@@ -69,13 +69,16 @@ namespace Nova {
 #version 330 core
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec4 a_Color;
+
+uniform mat4 u_ViewProjection;
+
 out vec3 v_Position;
 out vec4 v_Color; //ÐÂÔö
 void main()
 {
 	v_Position = a_Position;
 	v_Color = a_Color;
-	gl_Position = vec4(a_Position, 1.0);
+	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 }
 )";
 
@@ -93,7 +96,6 @@ void main()
 )";
 
 		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
-		m_Shader->Bind();
 	}
 
 	Application::~Application() {
@@ -105,7 +107,13 @@ void main()
 			RenderCommand::Clear();
 
 			m_Shader->Bind();
-			Renderer::Submit(m_VertexArray);
+
+			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+			m_Camera.SetRotation(45.0f);
+
+			Renderer::BeginScene(m_Camera);
+			Renderer::Submit(m_Shader, m_VertexArray);
+			Renderer::EndScene();
 
 			m_ImGuiLayer->OnUpdate();
 			m_Window->OnUpdate();
