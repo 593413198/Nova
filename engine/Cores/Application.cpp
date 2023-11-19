@@ -43,31 +43,53 @@ namespace Nova {
 		// 绑定顶点数组
 		glBindVertexArray(m_VertexArray);
 
-		// 定义三角形的三个点
-		float vertices[3 * 3] = {
-				-0.5f, -0.5, 0.0,
-				0.5f, -0.5f, 0.0f,
-				0.0f, 0.5f, 0.0f
+		// 定义三角形的三个点，包含颜色
+		float vertices[3 * 7] = {
+			-0.5f, -0.5, 0.0, 0.8f, 0.2f, 0.8f, 1.0f,
+			0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
+			0.0f, 0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-
-		// enable 第一个顶点数组，对应 shader 中的顶点数据
-		glEnableVertexAttribArray(0);
-		// 定义顶点属性为：从零开始，三组数据，浮点型，不进行归一化，每组数据为3*float(即步幅)
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
 		// 定义索引
 		unsigned int indices[3] = { 0, 1, 2 };
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
 
+		{
+			// 优雅，实在是优雅
+			BufferLayout layout = {
+				{ShaderDataType::Float3, "a_Position"},
+				{ShaderDataType::Float4, "a_Color"},
+			};
+			m_VertexBuffer->SetLayout(layout);
+		}
+
+		{
+			uint32_t index = 0;
+			const auto& layout = m_VertexBuffer->GetLayout();
+			for (const auto& element : layout) {
+				glEnableVertexAttribArray(index);
+				glVertexAttribPointer(index,
+					element.GetComponentCount(),
+					ShaderDataTypeToOpenGLBaseType(element.Type),
+					element.Normallized ? GL_TRUE : GL_FALSE,
+					layout.GetStride(),
+					(const void*)element.Offset);
+				index++;
+			}
+		}
+
 		std::string vertexSrc = R"(
 #version 330 core
 layout(location = 0) in vec3 a_Position;
+layout(location = 1) in vec4 a_Color;
 out vec3 v_Position;
+out vec4 v_Color; //新增
 void main()
 {
 	v_Position = a_Position;
+	v_Color = a_Color;
 	gl_Position = vec4(a_Position, 1.0);
 }
 )";
@@ -76,9 +98,12 @@ void main()
 #version 330 core
 layout(location = 0) out vec4 color;
 in vec3 v_Position;
+in vec4 v_Color; //新增
+
 void main()
 {
-	color = vec4(v_Position * 0.5 + 0.5, 1.0);
+   // color = vec4(v_Position * 0.5 + 0.5, 1.0);
+	color = v_Color;
 }
 )";
 
