@@ -25,6 +25,7 @@ public:
 
 	void OnEvent(Event& e);
 	bool OnWindowClose(WindowCloseEvent& e);
+	void OnImGuiRender();
 
 	void PushLayer(Layer* layer);
 
@@ -54,6 +55,9 @@ private:
 	float m_CameraMoveSpeed = 0.03f;
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotateSpeed = 0.5f;
+
+	// Debug
+	glm::vec4 m_DebugColor { 1.0f, 0.5f, 0.4f, 1.0f };
 
 private:
 	static Application* s_Instance;

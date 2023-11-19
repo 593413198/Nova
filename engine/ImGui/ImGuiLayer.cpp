@@ -29,29 +29,36 @@ namespace Nova {
 	}
 
 	void ImGuiLayer::OnDetach() {
-
-	}
-
-	void ImGuiLayer::OnUpdate() {
-		ImGuiIO& io = ImGui::GetIO();
-		Application& app = Application::Instance();
-
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 	}
 
 	void ImGuiLayer::Begin() {
-
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 	}
 
 	void ImGuiLayer::End() {
+		ImGuiIO& io = ImGui::GetIO();
+		Application& app = Application::Instance();
+		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
+		// Rendering
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		//if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+		//	GLFWwindow* backup_current_context = glfwGetCurrentContext();
+		//	ImGui::UpdatePlatformWindows();
+		//	ImGui::RenderPlatformWindowsDefault();
+		//	glfwMakeContextCurrent(backup_current_context);
+		//}
+	}
+
+	void ImGuiLayer::ShowDemoWindow() {
+		static bool show = true;
+		ImGui::ShowDemoWindow(&show);
 	}
 }

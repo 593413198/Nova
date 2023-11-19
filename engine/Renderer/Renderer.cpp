@@ -3,6 +3,7 @@
 
 #include "Renderer.h"
 #include "RenderCommand.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Nova {
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
@@ -21,7 +22,8 @@ namespace Nova {
 		const std::shared_ptr<VertexArray>& vertexArray)
 	{
 		shader->Bind();
-		shader->UploadUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
+		// FIXME: Renderer不要耦合OpenGL的逻辑
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 	}

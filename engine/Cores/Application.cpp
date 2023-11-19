@@ -6,6 +6,9 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
 #include "Input.h"
+#include "Platform/OpenGL/OpenGLShader.h"
+#include "imgui.h"
+#include "glm/gtc/type_ptr.hpp"
 
 namespace Nova {
 
@@ -93,15 +96,16 @@ void main()
 layout(location = 0) out vec4 color;
 in vec3 v_Position;
 in vec4 v_Color; //新增
+uniform vec3 u_Color; // uniform test
 
 void main()
 {
    // color = vec4(v_Position * 0.5 + 0.5, 1.0);
-	color = v_Color;
+	color = vec4(u_Color, 1.0f);
 }
 )";
 
-		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Shader::Create(vertexSrc, fragmentSrc));
 	}
 
 	Application::~Application() {
@@ -112,7 +116,8 @@ void main()
 			RenderCommand::SetClearColor({0.3f, 0.3f, 0.3f, 1.0f});
 			RenderCommand::Clear();
 
-			m_Shader->Bind();
+			std::dynamic_pointer_cast<OpenGLShader>(m_Shader)->Bind();
+			std::dynamic_pointer_cast<OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_DebugColor);
 
 			// 模拟 WASD 移动
 			{ 
@@ -134,14 +139,22 @@ void main()
 					m_CameraRotation += m_CameraRotateSpeed;
 			}
 
+			// Camera
 			m_Camera.SetPosition(m_CameraPosition);
 			m_Camera.SetRotation(m_CameraRotation);
 
+			// Scene Render
 			Renderer::BeginScene(m_Camera);
 			Renderer::Submit(m_Shader, m_VertexArray);
 			Renderer::EndScene();
 
-			m_ImGuiLayer->OnUpdate();
+			// ImGui
+			m_ImGuiLayer->Begin();
+			OnImGuiRender();
+			//m_ImGuiLayer->ShowDemoWindow();
+			m_ImGuiLayer->End();
+
+			// Windows
 			m_Window->OnUpdate();
 		}
 	}
@@ -164,6 +177,12 @@ void main()
 		LOG_INFO("Application::OnWindowClose");
 		m_Running = false;
 		return true;
+	}
+
+	void Application::OnImGuiRender() {
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_DebugColor));
+		ImGui::End();
 	}
 
 	void Application::PushLayer(Layer* layer) {
