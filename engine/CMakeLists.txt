@@ -16,6 +16,8 @@ set(SRC_LIST
     Platform/OpenGL/OpenGLContext.h
     Platform/OpenGL/OpenGLBuffer.cpp
     Platform/OpenGL/OpenGLBuffer.h
+    Platform/OpenGL/OpenGLVertexArray.cpp
+    Platform/OpenGL/OpenGLVertexArray.h
     Renderer/GraphicsContext.h
     Renderer/Shader.cpp
     Renderer/Shader.h
@@ -23,6 +25,8 @@ set(SRC_LIST
     Renderer/Renderer.h
     Renderer/Buffer.cpp
     Renderer/Buffer.h
+    Renderer/VertexArray.cpp
+    Renderer/VertexArray.h
     Cores/Window.h
     Cores/Application.cpp
     Cores/Application.h

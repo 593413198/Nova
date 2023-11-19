@@ -99,6 +99,7 @@ namespace Nova {
 		}
 
 		inline uint32_t GetStride() const { return m_Stride; }
+		inline const std::vector<BufferElement>& GetElements() const { return m_Elements; }
 
 		std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
 		std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
@@ -119,22 +120,4 @@ namespace Nova {
 			}
 		}
 	};
-
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
-		switch (type) {
-		case ShaderDataType::Float:         return GL_FLOAT;
-		case ShaderDataType::Float2:        return GL_FLOAT;
-		case ShaderDataType::Float3:        return GL_FLOAT;
-		case ShaderDataType::Float4:        return GL_FLOAT;
-		case ShaderDataType::Mat3:          return GL_FLOAT;
-		case ShaderDataType::Mat4:          return GL_FLOAT;
-		case ShaderDataType::Int:           return GL_INT;
-		case ShaderDataType::Int2:          return GL_INT;
-		case ShaderDataType::Int3:          return GL_INT;
-		case ShaderDataType::Int4:          return GL_INT;
-		case ShaderDataType::Bool:          return GL_BOOL;
-		}
-		NOVA_ASSERT(false, "Unknow ShaderDataType!")
-		return 0;
-	}
 }

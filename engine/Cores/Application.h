@@ -13,6 +13,7 @@
 #include "ImGui/ImGuiLayer.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Buffer.h"
+#include "Renderer/VertexArray.h"
 
 namespace Nova {
 class Application {
@@ -40,10 +41,10 @@ private:
 	LayerStack m_LayerStack;
 	ImGuiLayer* m_ImGuiLayer;
 	// Shader *https://learnopengl.com/Getting-started/Hello-Triangle
-	unsigned int m_VertexArray;  // VAO
-	std::unique_ptr<Shader> m_Shader;
+	std::unique_ptr<VertexArray> m_VertexArray;
 	std::unique_ptr<VertexBuffer> m_VertexBuffer;
 	std::unique_ptr<IndexBuffer> m_IndexBuffer;
+	std::unique_ptr<Shader> m_Shader;
 
 private:
 	static Application* s_Instance;

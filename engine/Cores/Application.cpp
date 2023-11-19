@@ -38,47 +38,30 @@ namespace Nova {
 		m_ImGuiLayer = new ImGuiLayer();
 		PushLayer(m_ImGuiLayer);
 
-		// 生成顶点数组
-		glGenVertexArrays(1, &m_VertexArray);
-		// 绑定顶点数组
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray.reset(VertexArray::Create());
 
-		// 定义三角形的三个点，包含颜色
+		// 三角形顶点数据
 		float vertices[3 * 7] = {
 			-0.5f, -0.5, 0.0, 0.8f, 0.2f, 0.8f, 1.0f,
 			0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
 			0.0f, 0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		// vbo
+		std::shared_ptr<VertexBuffer> vertexBuffer(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-		// 定义索引
+		// buffer layout
+		BufferLayout layout = {
+			{ShaderDataType::Float3, "a_Position"},
+			{ShaderDataType::Float4, "a_Color"},
+		};
+		vertexBuffer->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(vertexBuffer);
+
+		// index
 		unsigned int indices[3] = { 0, 1, 2 };
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
-
-		{
-			// 优雅，实在是优雅
-			BufferLayout layout = {
-				{ShaderDataType::Float3, "a_Position"},
-				{ShaderDataType::Float4, "a_Color"},
-			};
-			m_VertexBuffer->SetLayout(layout);
-		}
-
-		{
-			uint32_t index = 0;
-			const auto& layout = m_VertexBuffer->GetLayout();
-			for (const auto& element : layout) {
-				glEnableVertexAttribArray(index);
-				glVertexAttribPointer(index,
-					element.GetComponentCount(),
-					ShaderDataTypeToOpenGLBaseType(element.Type),
-					element.Normallized ? GL_TRUE : GL_FALSE,
-					layout.GetStride(),
-					(const void*)element.Offset);
-				index++;
-			}
-		}
+		std::shared_ptr<IndexBuffer> indexBuffer(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 		std::string vertexSrc = R"(
 #version 330 core
@@ -109,9 +92,6 @@ void main()
 
 		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
 		m_Shader->Bind();
-
-		glBindVertexArray(m_VertexArray);
-		glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
 	Application::~Application() {
@@ -122,8 +102,9 @@ void main()
 			glClearColor((GLfloat)0.3, (GLfloat)0.3, (GLfloat)0.3, (GLfloat)1.0);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			m_Shader->Bind();
+			m_VertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			m_ImGuiLayer->OnUpdate();
 			m_Window->OnUpdate();
