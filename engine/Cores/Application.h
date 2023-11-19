@@ -36,7 +36,6 @@ public:
 		return *s_Instance;
 	}
 
-	OrthographicCamera m_Camera;
 
 private:
 	std::unique_ptr<Window> m_Window;
@@ -48,6 +47,13 @@ private:
 	std::shared_ptr<VertexBuffer> m_VertexBuffer;
 	std::shared_ptr<IndexBuffer> m_IndexBuffer;
 	std::shared_ptr<Shader> m_Shader;
+
+	// Camera
+	OrthographicCamera m_Camera { -1.6f, 1.6f, -0.9f, 0.9f };
+	glm::vec3 m_CameraPosition { 0.5f, 0.5f, 0.0f };
+	float m_CameraMoveSpeed = 0.03f;
+	float m_CameraRotation = 0.0f;
+	float m_CameraRotateSpeed = 0.5f;
 
 private:
 	static Application* s_Instance;

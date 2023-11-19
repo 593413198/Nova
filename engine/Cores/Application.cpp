@@ -34,7 +34,7 @@ namespace Nova {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application() :m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+	Application::Application() {
 		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 
@@ -114,8 +114,28 @@ void main()
 
 			m_Shader->Bind();
 
-			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
-			m_Camera.SetRotation(45.0f);
+			// 模拟 WASD 移动
+			{ 
+				if (Input::IsKeyPressed(Key::A))
+					m_CameraPosition.x -= m_CameraMoveSpeed;
+				if (Input::IsKeyPressed(Key::D))
+					m_CameraPosition.x += m_CameraMoveSpeed;
+				if (Input::IsKeyPressed(Key::W))
+					m_CameraPosition.y += m_CameraMoveSpeed;
+				if (Input::IsKeyPressed(Key::S))
+					m_CameraPosition.y -= m_CameraMoveSpeed;
+			}
+
+			// 模拟 QE 二维旋转
+			{
+				if (Input::IsKeyPressed(Key::Q))
+					m_CameraRotation -= m_CameraRotateSpeed;
+				if (Input::IsKeyPressed(Key::E))
+					m_CameraRotation += m_CameraRotateSpeed;
+			}
+
+			m_Camera.SetPosition(m_CameraPosition);
+			m_Camera.SetRotation(m_CameraRotation);
 
 			Renderer::BeginScene(m_Camera);
 			Renderer::Submit(m_Shader, m_VertexArray);
