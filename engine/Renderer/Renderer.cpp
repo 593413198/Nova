@@ -24,6 +24,7 @@ namespace Nova {
 		shader->Bind();
 		// FIXME: Renderer不要耦合OpenGL的逻辑
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 	}

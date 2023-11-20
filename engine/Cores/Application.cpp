@@ -122,7 +122,6 @@ namespace Nova {
 			Renderer::BeginScene(m_Camera);
 			m_Texture->Bind();
 			Renderer::Submit(m_Shader, m_VertexArray);
-			std::dynamic_pointer_cast<OpenGLShader>(m_Shader)->UploadUniformMat4("u_Transform", glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 			Renderer::EndScene();
 
 			// ImGui
