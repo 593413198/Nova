@@ -51,11 +51,12 @@ namespace Nova {
 
 		m_VertexArray.reset(VertexArray::Create());
 
-		// 三角形顶点数据
-		float vertices[3 * 7] = {
-			-0.5f, -0.5, 0.0, 0.8f, 0.2f, 0.8f, 1.0f,
-			0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-			0.0f, 0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
+		// 矩形，包含uv坐标
+		float vertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
 		// vbo
@@ -64,48 +65,44 @@ namespace Nova {
 		// buffer layout
 		BufferLayout layout = {
 			{ShaderDataType::Float3, "a_Position"},
-			{ShaderDataType::Float4, "a_Color"},
+			{ShaderDataType::Float2, "a_TexCoord"}
+			//{ShaderDataType::Float4, "a_Color"},
 		};
 		vertexBuffer->SetLayout(layout);
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		// index
-		unsigned int indices[3] = { 0, 1, 2 };
+		unsigned int indices[6] = { 0, 1, 2, 2, 3, 0 };
 		std::shared_ptr<IndexBuffer> indexBuffer(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 		std::string vertexSrc = R"(
 #version 330 core
 layout(location = 0) in vec3 a_Position;
-layout(location = 1) in vec4 a_Color;
-
+layout(location = 1) in vec2 a_Texture;
 uniform mat4 u_ViewProjection;
-
-out vec3 v_Position;
-out vec4 v_Color; //新增
-void main()
-{
-	v_Position = a_Position;
-	v_Color = a_Color;
-	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+uniform mat4 u_Transform;
+out vec2 v_TexCoord;
+void main() {
+	v_TexCoord = a_Texture;
+	gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 }
 )";
 
 		std::string fragmentSrc = R"(
 #version 330 core
-layout(location = 0) out vec4 color;
-in vec3 v_Position;
-in vec4 v_Color; //新增
-uniform vec3 u_Color; // uniform test
-
-void main()
-{
-   // color = vec4(v_Position * 0.5 + 0.5, 1.0);
-	color = vec4(u_Color, 1.0f);
+layout(location=0) out vec4 color;
+in vec2 v_TexCoord;
+uniform sampler2D u_Texture;
+void main() {
+	color = texture(u_Texture, v_TexCoord);
 }
 )";
 
 		m_Shader.reset(Shader::Create(vertexSrc, fragmentSrc));
+		m_Texture = Texture2D::Create("../assets/demo.png");
+		m_Shader->Bind();
+		std::dynamic_pointer_cast<OpenGLShader>(m_Shader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	Application::~Application() {
@@ -117,7 +114,7 @@ void main()
 			RenderCommand::Clear();
 
 			std::dynamic_pointer_cast<OpenGLShader>(m_Shader)->Bind();
-			std::dynamic_pointer_cast<OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_DebugColor);
+			//std::dynamic_pointer_cast<OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_DebugColor);
 
 			// 模拟 WASD 移动
 			{ 
@@ -145,7 +142,9 @@ void main()
 
 			// Scene Render
 			Renderer::BeginScene(m_Camera);
+			m_Texture->Bind();
 			Renderer::Submit(m_Shader, m_VertexArray);
+			std::dynamic_pointer_cast<OpenGLShader>(m_Shader)->UploadUniformMat4("u_Transform", glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 			Renderer::EndScene();
 
 			// ImGui

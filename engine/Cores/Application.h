@@ -15,6 +15,7 @@
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
 #include "Renderer/OrthographicCamera.h"
+#include "Renderer/texture.h"
 
 namespace Nova {
 class Application {
@@ -58,6 +59,9 @@ private:
 
 	// Debug
 	glm::vec4 m_DebugColor { 1.0f, 0.5f, 0.4f, 1.0f };
+
+	// Texture
+	std::shared_ptr<Texture2D> m_Texture;
 
 private:
 	static Application* s_Instance;

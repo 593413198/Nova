@@ -20,6 +20,7 @@ set(SRC_LIST
     Platform/OpenGL/OpenGLVertexArray.h
     Platform/OpenGL/OpenGLRendererAPI.cpp Platform/OpenGL/OpenGLRendererAPI.h
     Platform/OpenGL/OpenGLShader.cpp Platform/OpenGL/OpenGLShader.h
+    Platform/OpenGL/OpenGLTexture.cpp Platform/OpenGL/OpenGLTexture.h
     Renderer/GraphicsContext.h
     Renderer/Shader.cpp Renderer/Shader.h
     Renderer/Renderer.cpp
@@ -28,6 +29,7 @@ set(SRC_LIST
     Renderer/Buffer.h
     Renderer/VertexArray.cpp
     Renderer/VertexArray.h
+    Renderer/texture.cpp Renderer/texture.h
     Renderer/RendererAPI.cpp Renderer/RendererAPI.h
     Renderer/RenderCommand.cpp Renderer/RenderCommand.h
     Renderer/OrthographicCamera.h
@@ -40,6 +42,7 @@ set(SRC_LIST
     Cores/Input.h
     ImGui/ImGuiLayer.cpp
     ImGui/ImGuiLayer.h
+    ../misc/stb_image/stb_image.h
     )
 
 file(GLOB EVENTS_HEADERS Events/*.h)
@@ -74,6 +77,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ../misc/imgui
     ../misc/imgui/backends
     ../misc/glm
+    ../misc/stb_image
     Platform/include
     Events/
     Cores/
