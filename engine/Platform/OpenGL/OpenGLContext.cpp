@@ -5,6 +5,7 @@
 #include "Log.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "tracy/Tracy.hpp"
 
 namespace Nova {
 	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle) :m_WindowHandle(windowHandle) {
@@ -23,6 +24,7 @@ namespace Nova {
 	}
 
 	void OpenGLContext::SwapBuffers() {
+		ZoneScopedN("OpenGLContext_SwapBuffers");
 		glfwSwapBuffers(m_WindowHandle);
 	}
 }

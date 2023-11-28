@@ -2,6 +2,7 @@
 // Luhao 2023.11.19
 
 #include "RendererAPI.h"
+#include "tracy/Tracy.hpp"
 
 namespace Nova {
 	class RenderCommand {
@@ -13,6 +14,7 @@ namespace Nova {
 			s_RendererAPI->Clear();
 		}
 		static inline void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) {
+			ZoneScopedN("RenderCommnad_DrawIndexed");
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
 

@@ -7,6 +7,7 @@
 #include <backends/imgui_impl_opengl3.h>
 #include "ImGuiLayer.h"
 #include "imgui_impl_glfw.h"
+#include "tracy/Tracy.hpp"
 
 namespace Nova {
 	void ImGuiLayer::OnAttach() {
@@ -35,12 +36,14 @@ namespace Nova {
 	}
 
 	void ImGuiLayer::Begin() {
+		ZoneScopedN("ImGuiLayer_Begin");
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
 	void ImGuiLayer::End() {
+		ZoneScopedN("ImGuiLayer_End");
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Instance();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
@@ -48,13 +51,6 @@ namespace Nova {
 		// Rendering
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-		//if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-		//	GLFWwindow* backup_current_context = glfwGetCurrentContext();
-		//	ImGui::UpdatePlatformWindows();
-		//	ImGui::RenderPlatformWindowsDefault();
-		//	glfwMakeContextCurrent(backup_current_context);
-		//}
 	}
 
 	void ImGuiLayer::ShowDemoWindow() {

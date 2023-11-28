@@ -8,6 +8,7 @@
 #include "KeyEvent.h"
 #include "MouseEvent.h"
 #include "Platform/OpenGL/OpenGLContext.h"
+#include "tracy/Tracy.hpp"
 
 namespace Nova {
 	static bool s_GLFWInitialized = false;
@@ -53,7 +54,7 @@ namespace Nova {
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
-		SetVSync(true);
+		//SetVSync(true);
 
 		// 注册 Resize 回调事件
 		glfwSetWindowSizeCallback(m_Window,
@@ -133,6 +134,7 @@ namespace Nova {
 	}
 
 	void WindowsWindow::OnUpdate() {
+		ZoneScopedN("Window_OnUpdate");
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}

@@ -89,7 +89,7 @@ namespace Nova {
 
 	void Application::Run() {
 		while (m_Running) {
-			ZoneScopedN("Application_Run");
+			ZoneScopedN("Application_Update");
 			RenderCommand::SetClearColor({0.3f, 0.3f, 0.3f, 1.0f});
 			RenderCommand::Clear();
 
@@ -111,6 +111,7 @@ namespace Nova {
 
 			// Ä£Äâ QE ¶þÎ¬Ðý×ª
 			{
+				ZoneScopedN("Key_QE");
 				if (Input::IsKeyPressed(Key::Q))
 					m_CameraRotation -= m_CameraRotateSpeed;
 				if (Input::IsKeyPressed(Key::E))
@@ -122,20 +123,28 @@ namespace Nova {
 			m_Camera.SetRotation(m_CameraRotation);
 
 			// Scene Render
-			Renderer::BeginScene(m_Camera);
-			m_Texture->Bind();
-			Renderer::Submit(m_Shader, m_VertexArray);
-			Renderer::EndScene();
+			{
+				ZoneScopedN("Scene_Render");
+				Renderer::BeginScene(m_Camera);
+				m_Texture->Bind();
+				Renderer::Submit(m_Shader, m_VertexArray);
+				Renderer::EndScene();
+			}
 
-			// ImGui
-			m_ImGuiLayer->Begin();
-			OnImGuiRender();
-			//m_ImGuiLayer->ShowDemoWindow();
-			m_ImGuiLayer->End();
+			{
+				ZoneScopedN("Imui_Render");
+				// ImGui
+				m_ImGuiLayer->Begin();
+				OnImGuiRender();
+				//m_ImGuiLayer->ShowDemoWindow();
+				m_ImGuiLayer->End();
+			}
 
-			// Windows
-			m_Window->OnUpdate();
-
+			{
+				ZoneScopedN("Window_update");
+				// Windows
+				m_Window->OnUpdate();
+			}
 			FrameMark;
 		}
 	}
@@ -161,6 +170,7 @@ namespace Nova {
 	}
 
 	void Application::OnImGuiRender() {
+		ZoneScopedN("OnImGuiRender");
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_DebugColor));
 		ImGui::End();

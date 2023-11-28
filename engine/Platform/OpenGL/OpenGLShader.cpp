@@ -4,6 +4,7 @@
 #include "Log.h"
 #include "glm/gtc/type_ptr.hpp"
 #include <fstream>
+#include "tracy/Tracy.hpp"
 
 namespace Nova {
 	// shader种类，目前只支持 VS/PS
@@ -306,15 +307,18 @@ namespace Nova {
 			return;
 		}
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
-
 	}
 
 	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4 value) {
+		ZoneScopedN("OpenGLShader_UploadUniformMat4");
+		ZoneText(name.c_str(), sizeof(name));
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+
 		if (location == -1) {
 			LOG_ERROR("No uniform found: {}", name);
 			return;
 		}
+
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 	}
 }
