@@ -9,6 +9,7 @@
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "imgui.h"
 #include "glm/gtc/type_ptr.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace Nova {
 
@@ -88,6 +89,7 @@ namespace Nova {
 
 	void Application::Run() {
 		while (m_Running) {
+			ZoneScopedN("Application_Run");
 			RenderCommand::SetClearColor({0.3f, 0.3f, 0.3f, 1.0f});
 			RenderCommand::Clear();
 
@@ -96,6 +98,7 @@ namespace Nova {
 
 			// Ä£Äâ WASD ÒÆ¶¯
 			{ 
+				ZoneScopedN("Key_WASD");
 				if (Input::IsKeyPressed(Key::A))
 					m_CameraPosition.x -= m_CameraMoveSpeed;
 				if (Input::IsKeyPressed(Key::D))
@@ -132,6 +135,8 @@ namespace Nova {
 
 			// Windows
 			m_Window->OnUpdate();
+
+			FrameMark;
 		}
 	}
 

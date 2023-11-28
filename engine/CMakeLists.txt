@@ -67,8 +67,11 @@ add_library(Nova STATIC
 )
 
 add_subdirectory(../misc/GLFW ../glfw)
-
 target_link_libraries(${PROJECT_NAME} glfw)
+
+option(TRACY_ENABLE "" ON)
+add_subdirectory(../misc/tracy ../tracy)
+target_link_libraries(${PROJECT_NAME} Tracy::TracyClient)
 
 target_include_directories(${PROJECT_NAME} PUBLIC 
     .
@@ -78,6 +81,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ../misc/imgui/backends
     ../misc/glm
     ../misc/stb_image
+    ../misc/tracy/public
     Platform/include
     Events/
     Cores/
